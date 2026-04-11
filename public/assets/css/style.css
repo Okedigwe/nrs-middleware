@@ -52,3 +52,15 @@ footer {
     font-size: 0.9rem;
     color: #7f8c8d;
 }
+
+/* Sidebar Active State */
+.nav-link.active {
+    background-color: #3b82f6; /* A nice professional blue */
+    color: white !important;
+    border-radius: 8px;
+    font-weight: 600;
+}
+
+.nav-link.active i {
+    color: white !important; /* Ensures the icon also turns white */
+}
