@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>NRS Portal | Manual Upload</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="assets/css/style.css">
+    <style>
+        .upload-zone {
+            border: 2px dashed #bdc3c7;
+            border-radius: 15px;
+            padding: 50px;
+            text-align: center;
+            background: white;
+            transition: 0.3s;
+            cursor: pointer;
+        }
+        .upload-zone:hover { border-color: #1a73e8; background: #f0f7ff; }
+        #fileInput { display: none; }
+    </style>
+</head>
+<body>
+    <div id="sidebar">
+        <h4 class="text-center mb-4">NRS Portal</h4>
+        <a href="index.html">Dashboard</a>
+        <a href="invoices.html">Invoices</a>
+        <a href="upload.html" class="active">Manual Upload</a>
+        <a href="settings.html">API Settings</a>
+        <hr>
+        <a href="#" onclick="logout()">Sign Out</a>
+    </div>
+
+    <div id="main-content">
+        <div class="container-fluid">
+            <h3 class="mb-4">Manual Document Upload</h3>
+            
+            <div class="card shadow-sm border-0 p-4">
+                <div class="upload-zone" id="dropZone" onclick="document.getElementById('fileInput').click()">
+                    <div class="mb-3">
+                        <i class="bi bi-cloud-arrow-up fs-1 text-primary"></i>
+                    </div>
+                    <h5>Click or Drag & Drop Invoice Files</h5>
+                    <p class="text-muted">Supported formats: .json, .csv, .xml</p>
+                    <input type="file" id="fileInput" accept=".json,.csv,.xml">
+                </div>
+
+                <div id="fileInfo" class="mt-4 d-none">
+                    <div class="alert alert-info d-flex justify-content-between align-items-center">
+                        <span id="fileName">invoice_data.csv</span>
+                        <button class="btn btn-primary btn-sm" id="processBtn">Process & Send to NRS</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="mt-4">
+                <h6>Processing Status</h6>
+                <div id="logContainer" class="bg-dark text-success p-3 rounded" style="font-family: monospace; min-height: 150px;">
+                    > Ready for upload...
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="assets/js/upload.js"></script>
+    <script src="assets/js/auth.js"></script> </body>
+</html>

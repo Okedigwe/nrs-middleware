@@ -1,0 +1,7 @@
+
+{"name":"nrs-middleware","version":"1.0.0","description":"NRS E-Invoicing Integration Middleware","main":"server.js","author":"Kingsley Okedigwe","license":"ISC",
+
+"scripts":
+{"start":"node server.js","dev":
+"node --watch server.js","test":"echo \"Error: no test specified\" && exit 1"},"dependencies":
+{"axios":"^1.14.0","csv-parse":"^6.2.1","dotenv":"^17.4.1","express":"^5.2.1","lowdb":"^7.0.1","qrcode":"^1.5.4","uuid":"^13.0.0","xml2js":"^0.6.2","xmlbuilder2":"^4.0.3"}}

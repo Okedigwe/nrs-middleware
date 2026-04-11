@@ -1,0 +1,54 @@
+/* Global variables for easy branding changes later */
+:root {
+    --primary-color: #1a73e8;
+    --sidebar-width: 250px;
+    --bg-light: #f4f7fe;
+    --status-completed: #28a745;
+    --status-pending: #ffc107;
+    --status-rejected: #dc3545;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: var(--bg-light);
+    margin: 0;
+}
+
+/* Sidebar Styling */
+#sidebar {
+    width: var(--sidebar-width);
+    height: 100vh;
+    position: fixed;
+    background: #2c3e50;
+    color: white;
+    padding-top: 20px;
+}
+
+#sidebar a {
+    color: #bdc3c7;
+    text-decoration: none;
+    padding: 15px 25px;
+    display: block;
+    transition: 0.3s;
+}
+
+#sidebar a:hover, #sidebar a.active {
+    background: #34495e;
+    color: white;
+    border-left: 4px solid var(--primary-color);
+}
+
+/* Main Content Area */
+#main-content {
+    margin-left: var(--sidebar-width);
+    padding: 30px;
+}
+
+/* Footer */
+footer {
+    margin-top: 50px;
+    padding: 20px;
+    text-align: center;
+    font-size: 0.9rem;
+    color: #7f8c8d;
+}
