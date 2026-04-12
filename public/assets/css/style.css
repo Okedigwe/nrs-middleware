@@ -1,4 +1,4 @@
-/* Global variables for easy branding changes later */
+/* --- Keep all your previous Global variables and Sidebar Styling intact --- */
 :root {
     --primary-color: #1a73e8;
     --sidebar-width: 250px;
@@ -6,6 +6,8 @@
     --status-completed: #28a745;
     --status-pending: #ffc107;
     --status-rejected: #dc3545;
+    --sidebar-bg: #2c3e50;
+    --sidebar-hover: #34495e;
 }
 
 body {
@@ -14,34 +16,103 @@ body {
     margin: 0;
 }
 
-/* Sidebar Styling */
-#sidebar {
+/* Sidebar Styling - Already updated for dynamic container */
+#sidebar-container {
     width: var(--sidebar-width);
     height: 100vh;
     position: fixed;
-    background: #2c3e50;
+    background: var(--sidebar-bg);
     color: white;
     padding-top: 20px;
+    overflow-y: auto;
 }
 
-#sidebar a {
+/* Sidebar Links */
+#sidebar-container .nav-link {
     color: #bdc3c7;
     text-decoration: none;
     padding: 15px 25px;
     display: block;
     transition: 0.3s;
+    border-left: 4px solid transparent;
 }
 
-#sidebar a:hover, #sidebar a.active {
-    background: #34495e;
+/* Hover & Active States */
+#sidebar-container .nav-link:hover {
+    background: var(--sidebar-hover);
     color: white;
+}
+
+#sidebar-container .nav-link.active {
+    background: var(--sidebar-hover);
+    color: white !important;
     border-left: 4px solid var(--primary-color);
+    font-weight: 600;
+}
+
+/* Brand Logo */
+.brand-logo h4 {
+    font-weight: bold;
+    letter-spacing: 1px;
+    margin-bottom: 20px;
 }
 
 /* Main Content Area */
 #main-content {
     margin-left: var(--sidebar-width);
     padding: 30px;
+}
+
+/* --- ADD NEW STYLES FOR FULL SETTINGS DASHBOARD BELOW --- */
+
+/* Settings Grid Layout */
+.settings-wrapper {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+    gap: 25px;
+}
+
+/* Rounded Cards */
+.card {
+    border: none;
+    border-radius: 12px !important; /* Force rounded corners */
+    box-shadow: 0 4px 12px rgba(0,0,0,0.05); /* Soft shadow from image */
+}
+
+.card-header {
+    background: #fff;
+    border-bottom: 1px solid #f0f0f0;
+    font-weight: bold;
+    color: #333;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+/* Inputs from reference image */
+.form-control {
+    border-radius: 8px; /* Slightly rounded inputs */
+    padding: 10px;
+    background: #fdfdfd;
+}
+
+/* Read-Only or Disabled fields */
+.form-control[readonly] {
+    background: #f4f7fe; /* Light bg for the NIF/TAX input */
+    cursor: not-allowed;
+}
+
+/* Helper text from image */
+.text-help {
+    font-size: 0.85rem;
+    color: #7f8c8d;
+    margin-top: -10px;
+}
+
+/* Buttons */
+.btn-primary {
+    border-radius: 8px;
+    padding: 10px 20px;
 }
 
 /* Footer */
@@ -51,16 +122,4 @@ footer {
     text-align: center;
     font-size: 0.9rem;
     color: #7f8c8d;
-}
-
-/* Sidebar Active State */
-.nav-link.active {
-    background-color: #3b82f6; /* A nice professional blue */
-    color: white !important;
-    border-radius: 8px;
-    font-weight: 600;
-}
-
-.nav-link.active i {
-    color: white !important; /* Ensures the icon also turns white */
 }

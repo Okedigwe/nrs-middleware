@@ -1,11 +1,29 @@
 /**
  * Auth & UI Management
- * Handles login, session security, and sidebar navigation
+ * Handles login, session security, and dynamic sidebar loading
  */
 
-document.addEventListener("DOMContentLoaded", function() {
+document.addEventListener("DOMContentLoaded", async function() {
     
-    // --- 1. LOGIN FORM LOGIC ---
+    // --- 1. SIDEBAR LOADER ---
+    const sidebarContainer = document.getElementById('sidebar-container');
+    if (sidebarContainer) {
+        try {
+            // Using a leading slash / ensures it always looks at the root folder
+            const response = await fetch('/components/sidebar.html'); 
+            if (response.ok) {
+                const html = await response.text();
+                sidebarContainer.innerHTML = html;
+                
+                // Add a small delay to ensure the DOM has painted the links
+                setTimeout(highlightActiveLink, 10);
+            }
+        } catch (err) {
+            console.error("Sidebar load failed:", err);
+        }
+    }
+
+    // --- 2. LOGIN FORM LOGIC ---
     const loginForm = document.getElementById('loginForm');
     if (loginForm) {
         loginForm.addEventListener('submit', function(e) {
@@ -13,49 +31,56 @@ document.addEventListener("DOMContentLoaded", function() {
             const email = document.getElementById('email').value;
             const password = document.getElementById('password').value;
 
-            if (email === "admin@nrs.com" && password === "admin123") {
+            // Basic auth check
+            if (email === "support@msl.com" && password === "Microware12345") {
                 localStorage.setItem('isLoggedIn', 'true');
                 localStorage.setItem('userEmail', email);
                 window.location.href = 'index.html';
             } else {
-                alert("Invalid credentials. Use admin@nrs.com / admin123");
+                alert("Invalid credentials. Use support@msl.com / Microware12345");
             }
         });
     }
 
-    // --- 2. SECURITY CHECK (Redirect if not logged in) ---
-    // We only check if we aren't already on login.html
-    const isLoginPage = window.location.pathname.includes('login.html');
+    // --- 3. SECURITY CHECK ---
+    const path = window.location.pathname;
+    const isLoginPage = path.includes('login.html') || path === '/' || path === '';
     const isLoggedIn = localStorage.getItem('isLoggedIn');
 
-    if (!isLoggedIn && !isLoginPage) {
+    // If not logged in and trying to access a protected page
+    if (!isLoggedIn && !path.includes('login.html')) {
         window.location.href = 'login.html';
-        return; // Stop execution
+        return; 
     }
 
-    // --- 3. AUTO-ACTIVE NAVIGATION ---
-    const currentPath = window.location.pathname;
-    const navLinks = document.querySelectorAll('.nav-link');
-
-    navLinks.forEach(link => {
-        link.classList.remove('active');
-        const linkPath = link.getAttribute('href');
-
-        // Logic to match /index.html or just /
-        if (currentPath.includes(linkPath) && linkPath !== "#") {
-            link.classList.add('active');
-        } else if (currentPath === "/" && linkPath === "index.html") {
-            link.classList.add('active');
-        }
-    });
-
     // --- 4. LOGOUT LOGIC ---
-    const logoutBtn = document.getElementById('logoutBtn');
-    if (logoutBtn) {
-        logoutBtn.addEventListener('click', (e) => {
+    // Improved click detection for the logout button and its icon
+    document.addEventListener('click', (e) => {
+        const logoutBtn = e.target.closest('#logoutBtn');
+        if (logoutBtn) {
             e.preventDefault();
             localStorage.clear();
             window.location.href = 'login.html';
+        }
+    });
+
+    // Helper Function for Navigation Highlighting
+    function highlightActiveLink() {
+        const currentPath = window.location.pathname;
+        const navLinks = document.querySelectorAll('.nav-link');
+
+        navLinks.forEach(link => {
+            link.classList.remove('active');
+            const linkPath = link.getAttribute('href');
+
+            // Logic to check if the current URL matches the link's destination
+            if (currentPath.endsWith(linkPath) && linkPath !== "#") {
+                link.classList.add('active');
+            } 
+            // Special case for root/index
+            else if ((currentPath === "/" || currentPath.endsWith('index.html')) && linkPath === "index.html") {
+                link.classList.add('active');
+            }
         });
     }
 });
