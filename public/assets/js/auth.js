@@ -32,7 +32,7 @@ document.addEventListener("DOMContentLoaded", async function() {
             const password = document.getElementById('password').value;
 
             // Basic auth check
-            if (email === "support@msl.com" && password === "Microware12345") {
+            if (email === "support@microwaresolutions.com" && password === "Microware12345") {
                 localStorage.setItem('isLoggedIn', 'true');
                 localStorage.setItem('userEmail', email);
                 window.location.href = 'index.html';
