@@ -37,7 +37,7 @@ document.addEventListener("DOMContentLoaded", async function() {
                 localStorage.setItem('userEmail', email);
                 window.location.href = 'index.html';
             } else {
-                alert("Invalid credentials. Use support@msl.com / Microware12345");
+                alert("Invalid credentials.  Please contact your administrator if you need access, further attempts may lock you out.");
             }
         });
     }
