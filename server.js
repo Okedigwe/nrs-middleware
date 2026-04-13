@@ -2,10 +2,11 @@
 // 1. DEPENDENCIES & TOOLING
 // ==========================================
 const express = require('express');
+const nodemailer = require('nodemailer'); // NEW: Added for emails
 const nrsClient = require('./src/services/nrs-invoice-client');
 const { generateInvoiceQR } = require('./src/utils/qr-generator');
 const { parseInput } = require('./src/utils/universal-parser');
-const { saveInvoice, getDashboardData } = require('./src/utils/db'); // Database helpers
+const { saveInvoice, getDashboardData } = require('./src/utils/db'); 
 require('dotenv').config();
 
 // ==========================================
@@ -14,7 +15,17 @@ require('dotenv').config();
 const app = express();
 const PORT = process.env.PORT || 3000;
 
+// Configuration for Nodemailer (Uses the .env variables you already set up)
+const transporter = nodemailer.createTransport({
+    service: 'gmail',
+    auth: {
+        user: process.env.EMAIL_USER,
+        pass: process.env.EMAIL_PASS
+    }
+});
+
 app.use(express.text({ type: '*/*', limit: '10mb' })); 
+app.use(express.json()); // Added to ensure JSON parsing for auth routes
 app.use(express.static('public'));
 
 // ==========================================
@@ -30,34 +41,60 @@ app.get('/health', (req, res) => {
     });
 });
 
+/**
+ * NEW: Forgot Password Endpoint
+ * This handles the request from forgot-password.html
+ */
+app.post('/api/forgot-password', async (req, res) => {
+    const { email } = req.body;
+
+    const mailOptions = {
+        from: `"MSL Portal Support" <${process.env.EMAIL_USER}>`,
+        to: email,
+        subject: 'MSL Portal | Password Reset Request',
+        html: `
+            <div style="font-family: Arial, sans-serif; padding: 20px; border: 1px solid #eee; border-radius: 10px;">
+                <h2 style="color: #2c3e50;">Password Reset Request</h2>
+                <p>You requested a password reset for your <strong>MSL E-Invoicing</strong> account.</p>
+                <p>Click the button below to proceed to the reset page:</p>
+                <div style="text-align: center; margin: 30px 0;">
+                    <a href="https://nrs-msl.onrender.com/reset-password.html" 
+                       style="background-color: #007bff; color: white; padding: 12px 25px; text-decoration: none; border-radius: 5px;">
+                       Reset Password
+                    </a>
+                </div>
+                <p style="font-size: 0.8em; color: #777;">If you did not request this, you can safely ignore this email.</p>
+            </div>
+        `
+    };
+
+    try {
+        await transporter.sendMail(mailOptions);
+        res.status(200).json({ success: true, message: 'Email sent successfully!' });
+    } catch (error) {
+        console.error('❌ Email Error:', error);
+        res.status(500).json({ success: false, message: 'Failed to send email' });
+    }
+});
+
 // Dashboard Stats Endpoint
 app.get('/api/v1/dashboard-stats', async (req, res) => {
     const data = await getDashboardData();
     res.json(data);
 });
 
-// Main Universal Endpoint (Unified & Updated to save XML)
+// Main Universal Endpoint
 app.post('/api/v1/send-invoice', async (req, res) => {
     try {
         const contentType = req.headers['content-type'] || 'application/json';
-        
-        // 1. Normalize input
         const normalizedData = await parseInput(req.body, contentType);
-
-        // 2. Submit to NRS and get result
         const result = await nrsClient.submitInvoice(normalizedData);
-        
-        // 3. Generate QR Code
         const qrImage = await generateInvoiceQR(result.irn);
 
-        /**
-         * UPDATED STEP: Save to Database
-         * We pass 'result.xml_content' so it can be viewed on the Invoices page later.
-         */
         const savedRecord = await saveInvoice(
             normalizedData, 
             { ...result, qr_base64: qrImage }, 
-            result.xml_content // The XML string generated during submission
+            result.xml_content 
         );
 
         res.status(200).json({
@@ -74,9 +111,6 @@ app.post('/api/v1/send-invoice', async (req, res) => {
     }
 });
 
-
-// ADD THESE ROUTES TO server.js (Before app.listen)
-
 const { getCustomers, saveCustomer } = require('./src/utils/db');
 
 app.get('/api/v1/customers', async (req, res) => {
@@ -89,7 +123,6 @@ app.post('/api/v1/customers', express.json(), async (req, res) => {
     res.status(201).json(customer);
 });
 
-// ADD TO server.js (Before app.listen)
 const { getSettings, saveSettings } = require('./src/utils/db');
 
 app.get('/api/v1/settings', async (req, res) => {
@@ -107,7 +140,7 @@ app.post('/api/v1/settings', express.json(), async (req, res) => {
 // ==========================================
 app.listen(PORT, () => {
     console.log('--------------------------------------------------');
-    console.log(`✅ NRS Universal Middleware is LIVE!`);
+    console.log(`✅ MSL Universal Middleware is LIVE!`);
     console.log(`🚀 Endpoint: http://localhost:${PORT}/api/v1/send-invoice`);
     console.log(`📡 Accepting: JSON, CSV, and XML`);
     console.log('--------------------------------------------------');

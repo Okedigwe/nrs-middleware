@@ -51,16 +51,41 @@ document.addEventListener("DOMContentLoaded", async function() {
         });
     }
 
-    // --- 2b. FORGOT PASSWORD LOGIC ---
+    // --- 2b. FORGOT PASSWORD LOGIC (Updated to talk to Backend) ---
     const forgotForm = document.getElementById('forgotForm');
     if (forgotForm) {
-        forgotForm.addEventListener('submit', function(e) {
+        forgotForm.addEventListener('submit', async function(e) {
             e.preventDefault();
             const email = document.getElementById('resetEmail').value;
+            const submitBtn = forgotForm.querySelector('button');
             
-            // For now, we simulate the email trigger
-            alert(`A password reset link has been sent to: ${email}`);
-            window.location.href = 'login.html';
+            // Disable button and show loading state
+            submitBtn.disabled = true;
+            submitBtn.innerText = "Sending...";
+
+            try {
+                const response = await fetch('/api/forgot-password', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ email: email })
+                });
+
+                const result = await response.json();
+
+                if (response.ok && result.success) {
+                    alert(`A password reset link has been sent to: ${email}`);
+                    window.location.href = 'login.html';
+                } else {
+                    alert("Failed to send email. Please ensure your email is correct or try again later.");
+                    submitBtn.disabled = false;
+                    submitBtn.innerText = "Send Reset Link";
+                }
+            } catch (err) {
+                console.error("Forgot Password Error:", err);
+                alert("Connection failed. Please check your network.");
+                submitBtn.disabled = false;
+                submitBtn.innerText = "Send Reset Link";
+            }
         });
     }
 
