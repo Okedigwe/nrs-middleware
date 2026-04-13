@@ -47,6 +47,9 @@ app.get('/health', (req, res) => {
  */
 app.post('/api/forgot-password', async (req, res) => {
     const { email } = req.body;
+    
+    // Log for debugging in Render
+    console.log(`Attempting to send reset email to: ${email}`);
 
     const mailOptions = {
         from: `"MSL Portal Support" <${process.env.EMAIL_USER}>`,
@@ -70,10 +73,12 @@ app.post('/api/forgot-password', async (req, res) => {
 
     try {
         await transporter.sendMail(mailOptions);
+        console.log("✅ Email sent successfully");
         res.status(200).json({ success: true, message: 'Email sent successfully!' });
     } catch (error) {
-        console.error('❌ Email Error:', error);
-        res.status(500).json({ success: false, message: 'Failed to send email' });
+        // This log will tell us EXACTLY why it fails in the Render Dashboard
+        console.error('❌ Nodemailer Error details:', error.message);
+        res.status(500).json({ success: false, message: 'Failed to send email', error: error.message });
     }
 });
 
