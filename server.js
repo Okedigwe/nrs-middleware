@@ -15,12 +15,21 @@ require('dotenv').config();
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-// Configuration for Nodemailer (Uses the .env variables you already set up)
+/**
+ * UPDATED: Configuration for Nodemailer
+ * Forced IPv4 via host/port to fix ENETUNREACH errors on Render
+ */
 const transporter = nodemailer.createTransport({
-    service: 'gmail',
+    host: 'smtp.gmail.com',
+    port: 465,
+    secure: true, // Use SSL
     auth: {
         user: process.env.EMAIL_USER,
         pass: process.env.EMAIL_PASS
+    },
+    tls: {
+        // Helps bypass network reachability issues on certain cloud environments
+        rejectUnauthorized: false
     }
 });
 
