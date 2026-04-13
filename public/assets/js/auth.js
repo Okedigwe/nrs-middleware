@@ -23,11 +23,19 @@ document.addEventListener("DOMContentLoaded", async function() {
         }
     }
 
-    // --- 2. LOGIN FORM LOGIC ---
+    // --- 2. LOGIN FORM LOGIC (Updated with reCAPTCHA) ---
     const loginForm = document.getElementById('loginForm');
     if (loginForm) {
         loginForm.addEventListener('submit', function(e) {
             e.preventDefault();
+
+            // Check reCAPTCHA status
+            const recaptchaResponse = grecaptcha.getResponse();
+            if (recaptchaResponse.length === 0) {
+                alert("Please complete the reCAPTCHA.");
+                return;
+            }
+
             const email = document.getElementById('email').value;
             const password = document.getElementById('password').value;
 
@@ -37,24 +45,42 @@ document.addEventListener("DOMContentLoaded", async function() {
                 localStorage.setItem('userEmail', email);
                 window.location.href = 'index.html';
             } else {
-                alert("Invalid credentials.  Please contact your administrator if you need access, further attempts may lock you out.");
+                alert("Invalid credentials. Please contact your administrator if you need access.");
+                grecaptcha.reset(); // Reset captcha on failed attempt
             }
         });
     }
 
-    // --- 3. SECURITY CHECK ---
+    // --- 2b. FORGOT PASSWORD LOGIC ---
+    const forgotForm = document.getElementById('forgotForm');
+    if (forgotForm) {
+        forgotForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+            const email = document.getElementById('resetEmail').value;
+            
+            // For now, we simulate the email trigger
+            alert(`A password reset link has been sent to: ${email}`);
+            window.location.href = 'login.html';
+        });
+    }
+
+    // --- 3. SECURITY CHECK (Updated to allow forgot-password.html) ---
     const path = window.location.pathname;
-    const isLoginPage = path.includes('login.html') || path === '/' || path === '';
     const isLoggedIn = localStorage.getItem('isLoggedIn');
+    
+    // Public pages that don't require a login
+    const isPublicPage = path.includes('login.html') || 
+                         path.includes('forgot-password.html') || 
+                         path === '/' || 
+                         path === '';
 
     // If not logged in and trying to access a protected page
-    if (!isLoggedIn && !path.includes('login.html')) {
+    if (!isLoggedIn && !isPublicPage) {
         window.location.href = 'login.html';
         return; 
     }
 
     // --- 4. LOGOUT LOGIC ---
-    // Improved click detection for the logout button and its icon
     document.addEventListener('click', (e) => {
         const logoutBtn = e.target.closest('#logoutBtn');
         if (logoutBtn) {
@@ -73,11 +99,9 @@ document.addEventListener("DOMContentLoaded", async function() {
             link.classList.remove('active');
             const linkPath = link.getAttribute('href');
 
-            // Logic to check if the current URL matches the link's destination
             if (currentPath.endsWith(linkPath) && linkPath !== "#") {
                 link.classList.add('active');
             } 
-            // Special case for root/index
             else if ((currentPath === "/" || currentPath.endsWith('index.html')) && linkPath === "index.html") {
                 link.classList.add('active');
             }
