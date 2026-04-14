@@ -15,21 +15,23 @@ require('dotenv').config();
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-// Forced IPv4 Configuration with extra timeout settings
+/**
+ * UPDATED: Configuration for Nodemailer
+ * Switched to Port 587 to bypass Render's network block on Port 465.
+ */
 const transporter = nodemailer.createTransport({
     host: 'smtp.gmail.com',
-    port: 465,
-    secure: true, 
+    port: 587,
+    secure: false, // Must be false for Port 587
     auth: {
         user: process.env.EMAIL_USER,
         pass: process.env.EMAIL_PASS
     },
-    connectionTimeout: 10000, // 10 seconds
-    greetingTimeout: 10000,
-    socketTimeout: 10000,
+    connectionTimeout: 15000, 
+    greetingTimeout: 15000,
+    socketTimeout: 15000,
     tls: {
-        rejectUnauthorized: false,
-        servername: 'smtp.gmail.com'
+        rejectUnauthorized: false
     }
 });
 
