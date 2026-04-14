@@ -2,7 +2,7 @@
 // 1. DEPENDENCIES & TOOLING
 // ==========================================
 const express = require('express');
-const nodemailer = require('nodemailer'); // NEW: Added for emails
+const nodemailer = require('nodemailer'); 
 const nrsClient = require('./src/services/nrs-invoice-client');
 const { generateInvoiceQR } = require('./src/utils/qr-generator');
 const { parseInput } = require('./src/utils/universal-parser');
@@ -15,33 +15,41 @@ require('dotenv').config();
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-/**
- * UPDATED: Configuration for Nodemailer
- * Forced IPv4 via host/port to fix ENETUNREACH errors on Render
- */
+// Forced IPv4 Configuration with extra timeout settings
 const transporter = nodemailer.createTransport({
     host: 'smtp.gmail.com',
     port: 465,
-    secure: true, // Use SSL
+    secure: true, 
     auth: {
         user: process.env.EMAIL_USER,
         pass: process.env.EMAIL_PASS
     },
+    connectionTimeout: 10000, // 10 seconds
+    greetingTimeout: 10000,
+    socketTimeout: 10000,
     tls: {
-        // Helps bypass network reachability issues on certain cloud environments
-        rejectUnauthorized: false
+        rejectUnauthorized: false,
+        servername: 'smtp.gmail.com'
+    }
+});
+
+// VERIFY CONNECTION ON STARTUP
+transporter.verify(function (error, success) {
+    if (error) {
+        console.log("❌ Nodemailer Setup Error: " + error.message);
+    } else {
+        console.log("✅ Server is ready to take our emails");
     }
 });
 
 app.use(express.text({ type: '*/*', limit: '10mb' })); 
-app.use(express.json()); // Added to ensure JSON parsing for auth routes
+app.use(express.json()); 
 app.use(express.static('public'));
 
 // ==========================================
 // 3. ROUTES & ENDPOINTS
 // ==========================================
 
-// Health Check
 app.get('/health', (req, res) => {
     res.status(200).json({ 
         status: 'UP', 
@@ -50,15 +58,13 @@ app.get('/health', (req, res) => {
     });
 });
 
-/**
- * NEW: Forgot Password Endpoint
- * This handles the request from forgot-password.html
- */
 app.post('/api/forgot-password', async (req, res) => {
     const { email } = req.body;
-    
-    // Log for debugging in Render
-    console.log(`Attempting to send reset email to: ${email}`);
+    console.log(`Incoming reset request for: ${email}`);
+
+    if (!email) {
+        return res.status(400).json({ success: false, message: 'Email is required' });
+    }
 
     const mailOptions = {
         from: `"MSL Portal Support" <${process.env.EMAIL_USER}>`,
@@ -67,7 +73,6 @@ app.post('/api/forgot-password', async (req, res) => {
         html: `
             <div style="font-family: Arial, sans-serif; padding: 20px; border: 1px solid #eee; border-radius: 10px;">
                 <h2 style="color: #2c3e50;">Password Reset Request</h2>
-                <p>You requested a password reset for your <strong>MSL E-Invoicing</strong> account.</p>
                 <p>Click the button below to proceed to the reset page:</p>
                 <div style="text-align: center; margin: 30px 0;">
                     <a href="https://nrs-msl.onrender.com/reset-password.html" 
@@ -75,19 +80,17 @@ app.post('/api/forgot-password', async (req, res) => {
                        Reset Password
                     </a>
                 </div>
-                <p style="font-size: 0.8em; color: #777;">If you did not request this, you can safely ignore this email.</p>
             </div>
         `
     };
 
     try {
         await transporter.sendMail(mailOptions);
-        console.log("✅ Email sent successfully");
-        res.status(200).json({ success: true, message: 'Email sent successfully!' });
+        console.log("✅ Email sent successfully to " + email);
+        res.status(200).json({ success: true });
     } catch (error) {
-        // This log will tell us EXACTLY why it fails in the Render Dashboard
-        console.error('❌ Nodemailer Error details:', error.message);
-        res.status(500).json({ success: false, message: 'Failed to send email', error: error.message });
+        console.error('❌ SendMail Error:', error.message);
+        res.status(500).json({ success: false, error: error.message });
     }
 });
 
