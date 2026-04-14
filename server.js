@@ -16,26 +16,35 @@ const app = express();
 const PORT = process.env.PORT || 3000;
 
 /**
- * UPDATED: Configuration for Nodemailer via OAuth2
- * This uses Port 443 (HTTPS), which Render cannot block.
+ * FINAL OAUTH2 CONFIGURATION
+ * Forced host/port setup to bypass Render's IPv6 ENETUNREACH error.
  */
 const transporter = nodemailer.createTransport({
-    service: 'gmail',
+    host: 'smtp.gmail.com',
+    port: 465,
+    secure: true,
     auth: {
         type: 'OAuth2',
         user: process.env.EMAIL_USER,
         clientId: process.env.CLIENT_ID,
         clientSecret: process.env.CLIENT_SECRET,
         refreshToken: process.env.REFRESH_TOKEN
+    },
+    // Increased timeouts to allow the API handshake to complete smoothly
+    connectionTimeout: 15000,
+    greetingTimeout: 15000,
+    socketTimeout: 15000,
+    tls: {
+        rejectUnauthorized: false
     }
 });
 
-// Verify connection on startup
+// Verify OAuth2 connection on startup
 transporter.verify(function (error, success) {
     if (error) {
         console.log("❌ OAuth2 Setup Error: " + error.message);
     } else {
-        console.log("✅ API Connection ready - No more timeouts!");
+        console.log("✅ API Connection ready - MSL Portal is authenticated!");
     }
 });
 
@@ -47,6 +56,7 @@ app.use(express.static('public'));
 // 3. ROUTES & ENDPOINTS
 // ==========================================
 
+// Health Check
 app.get('/health', (req, res) => {
     res.status(200).json({ 
         status: 'UP', 
@@ -55,6 +65,10 @@ app.get('/health', (req, res) => {
     });
 });
 
+/**
+ * Forgot Password Endpoint
+ * Fully integrated with OAuth2 for the NRS-ERP portal
+ */
 app.post('/api/forgot-password', async (req, res) => {
     const { email } = req.body;
     console.log(`Incoming reset request for: ${email}`);
@@ -70,6 +84,7 @@ app.post('/api/forgot-password', async (req, res) => {
         html: `
             <div style="font-family: Arial, sans-serif; padding: 20px; border: 1px solid #eee; border-radius: 10px;">
                 <h2 style="color: #2c3e50;">Password Reset Request</h2>
+                <p>You requested a password reset for your <strong>MSL E-Invoicing</strong> account.</p>
                 <p>Click the button below to proceed to the reset page:</p>
                 <div style="text-align: center; margin: 30px 0;">
                     <a href="https://nrs-msl.onrender.com/reset-password.html" 
@@ -77,14 +92,15 @@ app.post('/api/forgot-password', async (req, res) => {
                        Reset Password
                     </a>
                 </div>
+                <p style="font-size: 0.8em; color: #777;">If you did not request this, you can safely ignore this email.</p>
             </div>
         `
     };
 
     try {
         await transporter.sendMail(mailOptions);
-        console.log("✅ Email sent successfully via OAuth2");
-        res.status(200).json({ success: true });
+        console.log("✅ Email sent successfully via OAuth2 to: " + email);
+        res.status(200).json({ success: true, message: 'Reset link sent!' });
     } catch (error) {
         console.error('❌ OAuth2 Send Error:', error.message);
         res.status(500).json({ success: false, error: error.message });
@@ -97,7 +113,7 @@ app.get('/api/v1/dashboard-stats', async (req, res) => {
     res.json(data);
 });
 
-// Main Universal Endpoint
+// Main Universal Endpoint (E-Invoicing Core)
 app.post('/api/v1/send-invoice', async (req, res) => {
     try {
         const contentType = req.headers['content-type'] || 'application/json';
