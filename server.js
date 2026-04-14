@@ -16,31 +16,26 @@ const app = express();
 const PORT = process.env.PORT || 3000;
 
 /**
- * UPDATED: Configuration for Nodemailer
- * Switched to Port 587 to bypass Render's network block on Port 465.
+ * UPDATED: Configuration for Nodemailer via OAuth2
+ * This uses Port 443 (HTTPS), which Render cannot block.
  */
 const transporter = nodemailer.createTransport({
-    host: 'smtp.gmail.com',
-    port: 587,
-    secure: false, // Must be false for Port 587
+    service: 'gmail',
     auth: {
+        type: 'OAuth2',
         user: process.env.EMAIL_USER,
-        pass: process.env.EMAIL_PASS
-    },
-    connectionTimeout: 15000, 
-    greetingTimeout: 15000,
-    socketTimeout: 15000,
-    tls: {
-        rejectUnauthorized: false
+        clientId: process.env.CLIENT_ID,
+        clientSecret: process.env.CLIENT_SECRET,
+        refreshToken: process.env.REFRESH_TOKEN
     }
 });
 
-// VERIFY CONNECTION ON STARTUP
+// Verify connection on startup
 transporter.verify(function (error, success) {
     if (error) {
-        console.log("❌ Nodemailer Setup Error: " + error.message);
+        console.log("❌ OAuth2 Setup Error: " + error.message);
     } else {
-        console.log("✅ Server is ready to take our emails");
+        console.log("✅ API Connection ready - No more timeouts!");
     }
 });
 
@@ -88,10 +83,10 @@ app.post('/api/forgot-password', async (req, res) => {
 
     try {
         await transporter.sendMail(mailOptions);
-        console.log("✅ Email sent successfully to " + email);
+        console.log("✅ Email sent successfully via OAuth2");
         res.status(200).json({ success: true });
     } catch (error) {
-        console.error('❌ SendMail Error:', error.message);
+        console.error('❌ OAuth2 Send Error:', error.message);
         res.status(500).json({ success: false, error: error.message });
     }
 });
