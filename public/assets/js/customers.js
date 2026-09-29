@@ -1,87 +1,57 @@
-/**
- * Customer Directory Logic
- */
+/* Customer directory (requires auth.js + bootstrap bundle) */
+(function () {
+  "use strict";
+  const { esc, api, toast } = window.MSL;
+  let all = [];
 
-let allCustomers = [
-    { name: "Global Tech Solutions", tin: "22334455-0001", email: "billing@globaltech.ng", invoices: 12 },
-    { name: "Lagos Logistics Ltd", tin: "99887766-0005", email: "accounts@lagoslog.com", invoices: 5 },
-    { name: "Merit's Rose Design", tin: "11223344-0009", email: "merit@rosedesign.ng", invoices: 2 }
-];
-
-document.addEventListener("DOMContentLoaded", () => {
-    renderCustomers(allCustomers);
-
-    // 1. Search Logic
-    const searchInput = document.getElementById('searchInput'); // Ensure this ID exists in your HTML
-    if (searchInput) {
-        searchInput.addEventListener('input', (e) => {
-            const term = e.target.value.toLowerCase();
-            const filtered = allCustomers.filter(c => 
-                c.name.toLowerCase().includes(term) || 
-                c.tin.includes(term)
-            );
-            renderCustomers(filtered);
-        });
+  function render(list) {
+    const body = document.getElementById("customerListBody");
+    document.getElementById("custCount").textContent = `${all.length} customer${all.length === 1 ? "" : "s"}`;
+    if (!list.length) {
+      body.innerHTML = `<tr><td colspan="5" class="empty"><i class="bi bi-buildings" aria-hidden="true"></i><strong>${all.length ? "No matches" : "No customers yet"}</strong>${all.length ? "Try another name or Tax ID." : "Add the buyers you invoice most often."}</td></tr>`;
+      return;
     }
+    body.innerHTML = list.map((c) => {
+      const initials = String(c.name || "?").split(/\s+/).slice(0, 2).map((w) => w[0] || "").join("").toUpperCase();
+      return `<tr>
+        <td><div class="d-flex align-items-center gap-2"><span class="avatar d-inline-grid" style="width:32px;height:32px;border-radius:9px;place-items:center;background:var(--msl-blue-50);color:var(--msl-blue);font:600 .74rem/1 var(--font-display)">${esc(initials)}</span><strong>${esc(c.name)}</strong></div></td>
+        <td><code>${esc(c.tin)}</code></td>
+        <td>${esc(c.email)}</td>
+        <td class="num">${esc(c.invoices ?? 0)}</td>
+        <td class="text-end"><button class="btn btn-sm btn-ghost" type="button" aria-label="Edit ${esc(c.name)}" disabled title="Editing coming soon"><i class="bi bi-pencil" aria-hidden="true"></i></button></td>
+      </tr>`;
+    }).join("");
+  }
 
-    // 2. Add Customer Form Logic
-    const addForm = document.getElementById('addCustomerForm');
-    if (addForm) {
-        addForm.addEventListener('submit', function(e) {
-            e.preventDefault();
-            
-            const newCustomer = {
-                name: document.getElementById('custName').value,
-                tin: document.getElementById('custTin').value,
-                email: document.getElementById('custEmail').value,
-                invoices: 0
-            };
+  async function load() {
+    try {
+      const r = await api("/api/v1/dashboard-stats");
+      const data = r.ok ? await r.json() : {};
+      all = Array.isArray(data.customers) ? data.customers : [];
+    } catch { all = []; }
+    render(all);
+  }
 
-            // Add to our local list
-            allCustomers.unshift(newCustomer);
-            
-            // Refresh table
-            renderCustomers(allCustomers);
-
-            // Close Modal & Reset Form
-            const modalElement = document.getElementById('customerModal');
-            const modal = bootstrap.Modal.getInstance(modalElement);
-            modal.hide();
-            addForm.reset();
-
-            console.log("New customer added locally:", newCustomer);
-            // In the future, add an 'await fetch' here to save to your database
-        });
-    }
-});
-
-// 3. Render Table
-function renderCustomers(data) {
-    const tbody = document.getElementById('customerListBody');
-    if (!tbody) return;
-
-    if (data.length === 0) {
-        tbody.innerHTML = '<tr><td colspan="5" class="text-center text-muted">No customers found.</td></tr>';
-        return;
-    }
-
-    tbody.innerHTML = data.map(c => `
-        <tr>
-            <td><strong>${c.name}</strong></td>
-            <td><code>${c.tin}</code></td>
-            <td>${c.email}</td>
-            <td><span class="badge bg-light text-dark border">${c.invoices}</span></td>
-            <td>
-                <button class="btn btn-sm btn-outline-secondary" onclick="editCustomer('${c.tin}')">
-                    <i class="bi bi-pencil"></i>
-                </button>
-            </td>
-        </tr>
-    `).join('');
-}
-
-// Placeholder for edit functionality
-function editCustomer(tin) {
-    console.log("Edit customer with TIN:", tin);
-    // You can implement an edit modal here later
-}
+  document.addEventListener("msl:ready", () => {
+    document.querySelectorAll("[data-year]").forEach((e) => (e.textContent = new Date().getFullYear()));
+    load();
+    document.getElementById("searchInput").addEventListener("input", (e) => {
+      const t = e.target.value.trim().toLowerCase();
+      render(all.filter((c) => String(c.name).toLowerCase().includes(t) || String(c.tin).toLowerCase().includes(t)));
+    });
+    document.getElementById("addCustomerForm").addEventListener("submit", async (e) => {
+      e.preventDefault();
+      const c = { name: custName.value.trim(), tin: custTin.value.trim(), email: custEmail.value.trim(), invoices: 0 };
+      let saved = false;
+      try {
+        const r = await api("/api/v1/customers", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(c) });
+        saved = r.ok;
+      } catch {}
+      all.unshift(c);
+      render(all);
+      bootstrap.Modal.getInstance(document.getElementById("customerModal")).hide();
+      e.target.reset();
+      toast(saved ? "Customer saved." : "Customer added for this session (server save endpoint not available yet).", saved ? "ok" : "info");
+    });
+  });
+})();

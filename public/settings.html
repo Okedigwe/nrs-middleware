@@ -1,161 +1,119 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en-NG">
 <head>
-    <meta charset="UTF-8">
-    <title>NRS Portal | Settings</title>
-    <link rel="icon" type="image/png" href="assets/img/favicon.png">
-
-<meta property="og:type" content="website">
-<meta property="og:url" content="https://nrs-msl.render.com/"> <meta property="og:title" content="MSL E-Invoicing Portal | Microware Solutions Ltd">
-<meta property="og:description" content="Secure e-Invoicing middleware integration for the Nigerian market.">
-<meta property="og:image" content="https://nrs-msl.render.com/assets/img/og-thumbnail.png"> 
-
-<meta property="twitter:card" content="summary_large_image">
-<meta property="twitter:title" content="MSL E-Invoicing Portal | Microware Solutions Ltd">
-<meta property="twitter:description" content="Secure e-Invoicing middleware integration for the Nigerian market.">
-<meta property="twitter:image" content="https://nrs-msl.render.com/assets/img/og-thumbnail.png">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css" rel="stylesheet">
-    <link rel="stylesheet" href="assets/css/style.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Settings | MSL NRS e-Invoicing Middleware</title>
+  <meta name="robots" content="noindex, nofollow">
+  <meta name="theme-color" content="#050c22">
+  <link rel="icon" type="image/png" href="assets/img/favicon.png">
+  <link rel="stylesheet" href="assets/vendor/bootstrap/bootstrap.min.css">
+  <link rel="stylesheet" href="assets/vendor/icons/bootstrap-icons.min.css">
+  <link rel="stylesheet" href="assets/css/style.css">
 </head>
-<body>
-    <div id="sidebar-container"></div>
-
-    <div id="main-content">
-        <h3 class="mb-4">System Settings</h3>
-        <p class="text-help mb-4">Manage your account settings and preferences</p>
-
-        <div class="settings-wrapper">
-
-            <div class="card shadow-sm border-0 mb-4">
-                <div class="card-header bg-white">
-                    <h5 class="mb-0">NRS API Credentials</h5>
-                </div>
-                <div class="card-body">
-                    <form id="settingsForm">
-                        <div class="mb-3">
-                            <label class="form-label">Base API URL</label>
-                            <input type="text" id="apiUrl" class="form-control" placeholder="https://test-api.nrs.gov.ng/v1">
-                        </div>
-                        <div class="row">
-                            <div class="col-md-6 mb-3">
-                                <label class="form-label">Client ID</label>
-                                <input type="text" id="clientId" class="form-control">
-                            </div>
-                            <div class="col-md-6 mb-3">
-                                <label class="form-label">Client Secret</label>
-                                <input type="password" id="clientSecret" class="form-control">
-                            </div>
-                        </div>
-                        <div class="form-check form-switch mb-4">
-                            <input class="form-check-input" type="checkbox" id="mockMode">
-                            <label class="form-check-label">Enable Sandbox/Mock Mode</label>
-                        </div>
-                        <button type="submit" class="btn btn-primary">Save API Changes</button>
-                        <br>
-                        <br>
-                        <br>
-                        Dont have API credentials yet? 
-                        <br>
-                        <br>
-                        To obtain your API Key and Secret Key: <br>
-                        1. Register Your Application:<br>
-                        Sign up for an account on the <a href="https://einvoice.firs.gov.ng/enablement" target="_blank">e-Invoicing platform</a> and register your application. <br>
-                        2. Generate API and Secret Keys:<br>
-                        After registration, navigate to the API section in your account dashboard to generate both the API key and the secret key.
-                    </form>
-                </div>
-            </div>
-
-            <div class="card shadow-sm border-0 mb-4">
-                <div class="card-header bg-white">
-                    <h5 class="mb-0">Profile Information</h5>
-                </div>
-                <div class="card-body">
-                    <form id="profileForm">
-                        <div class="mb-3">
-                            <label class="form-label">NAME</label>
-                            <input type="text" id="profName" class="form-control" value="XYZ Nigeria Ltd" required>
-                        </div>
-                        <div class="mb-3">
-                            <label class="form-label">NIF (TAX REGISTRATION NUMBER)</label>
-                            <input type="text" id="profTax" class="form-control" value="12345678-0001" readonly>
-                        </div>
-                        <div class="mb-3">
-                            <label class="form-label">EMAIL ADDRESS</label>
-                            <input type="email" id="profEmail" class="form-control" value="e-invoicing@xyz.com" required>
-                        </div>
-                        <div class="mb-3">
-                            <label class="form-label">ADDRESS LINE 1</label>
-                            <input type="text" id="profAddr1" class="form-control" value="123 Main Street" required>
-                        </div>
-                        <div class="mb-3">
-                            <label class="form-label">CITY</label>
-                            <input type="text" id="profCity" class="form-control" value="Victoria Island" required>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-6 mb-3">
-                                <label class="form-label">STATE</label>
-                                <input type="text" id="profState" class="form-control" value="Lagos">
-                            </div>
-                            <div class="col-md-6 mb-3">
-                                <label class="form-label">POSTAL CODE</label>
-                                <input type="text" id="profPostal" class="form-control" value="101241">
-                            </div>
-                        </div>
-                        <button type="submit" class="btn btn-primary">Update Profile</button>
-                    </form>
-                </div>
-            </div>
-
-            <div class="card shadow-sm border-0 mb-4">
-                <div class="card-header bg-white">
-                    <h5 class="mb-0">Invoice Terms</h5>
-                    <button class="btn btn-sm btn-outline-secondary">
-                        <i class="bi bi-pencil"></i> Edit
-                    </button>
-                </div>
-                <div class="card-body">
-                    <p class="text-help mb-3">
-                        These terms are printed in the invoice PDF. Supports basic formatting (bold, italic, bullets) and preserves your line breaks.
-                    </p>
-                    <div id="invoiceTermsPreview" class="border p-3 rounded bg-light" style="min-height: 80px; color: #7f8c8d;">
-                        <em>No invoice terms set yet.</em>
-                    </div>
-                </div>
-            </div>
-
-            <div class="card shadow-sm border-0 mb-4">
-                <div class="card-header bg-white">
-                    <h5 class="mb-0">Change Password</h5>
-                </div>
-                <div class="card-body">
-                    <form id="passwordForm">
-                        <div class="mb-3">
-                            <label class="form-label">CURRENT PASSWORD</label>
-                            <input type="password" id="curPass" class="form-control" required>
-                        </div>
-                        <div class="mb-3">
-                            <label class="form-label">NEW PASSWORD</label>
-                            <input type="password" id="newPass" class="form-control" required>
-                        </div>
-                        <div class="mb-4">
-                            <label class="form-label">CONFIRM NEW PASSWORD</label>
-                            <input type="password" id="confirmPass" class="form-control" required>
-                        </div>
-                        <button type="submit" class="btn btn-primary w-100">Update Password</button>
-                    </form>
-                </div>
-            </div>
-
+<body class="app" data-title="Settings">
+  <aside id="sidebar-container" aria-label="Sidebar"></aside>
+  <div id="main-content">
+    <header class="topbar" id="topbar"></header>
+    <main class="page">
+      <div class="page-head">
+        <div>
+          <span class="eyebrow">Configuration</span>
+          <h1>System settings</h1>
+          <p>Connect to NRS, set your business profile and manage account security.</p>
         </div>
+      </div>
 
-        <footer>
-            &copy; 2026 NRS E-Invoicing Portal | Microware Solutions Ltd
-        </footer>
-    </div>
+      <div class="settings-grid">
+        <!-- NRS API -->
+        <section class="card">
+          <div class="card-header">
+            <div><h2>NRS API credentials</h2><p class="card-sub">Used by the middleware to transmit invoices</p></div>
+            <span class="pill pill-muted" id="connPill">Not verified</span>
+          </div>
+          <div class="card-body">
+            <form id="settingsForm" autocomplete="off">
+              <div class="mb-3">
+                <label class="form-label" for="apiUrl">Base API URL</label>
+                <input type="url" id="apiUrl" class="form-control mono" placeholder="https://…/api/v1">
+                <div class="form-text">Use the sandbox URL issued by NRS for testing, then the production URL.</div>
+              </div>
+              <div class="row">
+                <div class="col-md-6 mb-3"><label class="form-label" for="clientId">API key / Client ID</label><input type="text" id="clientId" class="form-control mono"></div>
+                <div class="col-md-6 mb-3"><label class="form-label" for="clientSecret">Secret key</label><input type="password" id="clientSecret" class="form-control mono" placeholder="••••••••" autocomplete="new-password"><div class="form-text">Stored server-side only; never shown again.</div></div>
+              </div>
+              <div class="form-check form-switch mb-4">
+                <input class="form-check-input" type="checkbox" role="switch" id="mockMode">
+                <label class="form-check-label" for="mockMode">Sandbox / mock mode <span class="text-muted-2">(no live submissions)</span></label>
+              </div>
+              <button type="submit" class="btn btn-primary"><span class="spin" aria-hidden="true"></span><span class="lbl">Save API settings</span></button>
+            </form>
 
-    <script src="assets/js/auth.js"></script>
-    <script src="assets/js/settings.js"></script>
+            <div class="secret-note mt-4">
+              <i class="bi bi-key" aria-hidden="true"></i>
+              <div>
+                <b>Don't have API credentials yet?</b>
+                <ol class="steps-mini">
+                  <li>Get your business enabled on the <a href="https://einvoice.nrs.gov.ng/enablement" target="_blank" rel="noopener">NRS e-Invoicing platform</a>.</li>
+                  <li>Sign in and open <a href="https://einvoice.nrs.gov.ng/dashboard" target="_blank" rel="noopener">Retrieve Integration Credentials</a> to generate your API and secret keys.</li>
+                  <li>Paste them here and test in sandbox mode first.</li>
+                </ol>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- Profile -->
+        <section class="card">
+          <div class="card-header"><div><h2>Business profile</h2><p class="card-sub">Printed as supplier details on every invoice</p></div></div>
+          <div class="card-body">
+            <form id="profileForm">
+              <div class="mb-3"><label class="form-label" for="profName">Registered business name</label><input type="text" id="profName" class="form-control" placeholder="Company Ltd" required></div>
+              <div class="mb-3"><label class="form-label" for="profTax">Tax ID</label><input type="text" id="profTax" class="form-control mono" placeholder="Retrieve at taxid.nrs.gov.ng" readonly><div class="form-text">Set during onboarding. Contact support to change it.</div></div>
+              <div class="mb-3"><label class="form-label" for="profEmail">e-Invoicing email</label><input type="email" id="profEmail" class="form-control" placeholder="e-invoicing@company.com" required></div>
+              <div class="mb-3"><label class="form-label" for="profAddr1">Address</label><input type="text" id="profAddr1" class="form-control" placeholder="Street address" required></div>
+              <div class="row">
+                <div class="col-md-5 mb-3"><label class="form-label" for="profCity">City</label><input type="text" id="profCity" class="form-control" required></div>
+                <div class="col-md-4 mb-3"><label class="form-label" for="profState">State</label><input type="text" id="profState" class="form-control"></div>
+                <div class="col-md-3 mb-3"><label class="form-label" for="profPostal">Postal code</label><input type="text" id="profPostal" class="form-control"></div>
+              </div>
+              <button type="submit" class="btn btn-primary"><span class="spin" aria-hidden="true"></span><span class="lbl">Update profile</span></button>
+            </form>
+          </div>
+        </section>
+
+        <!-- Terms -->
+        <section class="card">
+          <div class="card-header"><div><h2>Invoice terms</h2><p class="card-sub">Appears in the invoice PDF footer</p></div></div>
+          <div class="card-body">
+            <label class="form-label" for="invoiceTerms">Terms &amp; notes</label>
+            <textarea id="invoiceTerms" class="form-control" rows="5" placeholder="e.g. Payment due within 30 days. Bank: …"></textarea>
+            <div class="form-text">Line breaks are preserved.</div>
+            <button type="button" class="btn btn-ghost mt-3" id="saveTerms">Save terms</button>
+          </div>
+        </section>
+
+        <!-- Password -->
+        <section class="card">
+          <div class="card-header"><div><h2>Change password</h2><p class="card-sub">Use at least 12 characters</p></div><i class="bi bi-shield-lock text-primary fs-5" aria-hidden="true"></i></div>
+          <div class="card-body">
+            <form id="passwordForm">
+              <div class="mb-3"><label class="form-label" for="curPass">Current password</label><input type="password" id="curPass" class="form-control" autocomplete="current-password" required></div>
+              <div class="mb-3"><label class="form-label" for="newPass">New password</label><input type="password" id="newPass" class="form-control" autocomplete="new-password" minlength="12" required></div>
+              <div class="mb-4"><label class="form-label" for="confirmPass">Confirm new password</label><input type="password" id="confirmPass" class="form-control" autocomplete="new-password" minlength="12" required></div>
+              <button type="submit" class="btn btn-primary w-100"><span class="spin" aria-hidden="true"></span><span class="lbl">Update password</span></button>
+            </form>
+          </div>
+        </section>
+      </div>
+    </main>
+    <footer class="app-footer">
+      <span>© <span data-year>2026</span> Microware Solutions Limited · NRS e-Invoicing Middleware</span>
+      <span><a href="https://einvoice.nrs.gov.ng/docs/introduction" target="_blank" rel="noopener">NRS developer docs</a></span>
+    </footer>
+  </div>
+
+  <script src="assets/js/auth.js"></script>
+  <script src="assets/js/settings.js"></script>
 </body>
 </html>

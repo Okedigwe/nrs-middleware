@@ -1,0 +1,11 @@
+User-agent: *
+Allow: /
+Disallow: /dashboard.html
+Disallow: /invoices.html
+Disallow: /upload.html
+Disallow: /customers.html
+Disallow: /settings.html
+Disallow: /components/
+Disallow: /api/
+
+Sitemap: https://nrs-middleware.onrender.com/sitemap.xml

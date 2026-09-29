@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en-NG">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Dashboard | MSL NRS e-Invoicing Middleware</title>
+  <meta name="robots" content="noindex, nofollow">
+  <meta name="theme-color" content="#050c22">
+  <link rel="icon" type="image/png" href="assets/img/favicon.png">
+  <link rel="stylesheet" href="assets/vendor/bootstrap/bootstrap.min.css">
+  <link rel="stylesheet" href="assets/vendor/icons/bootstrap-icons.min.css">
+  <link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body class="app" data-title="Dashboard">
+  <aside id="sidebar-container" aria-label="Sidebar"></aside>
+
+  <div id="main-content">
+    <header class="topbar" id="topbar"></header>
+
+    <main class="page">
+      <div class="page-head">
+        <div>
+          <span class="eyebrow">Overview</span>
+          <h1>Good <span data-greet>day</span>, <span data-user-name>there</span></h1>
+          <p>Live view of invoices flowing from your ERP to the NRS MBS platform.</p>
+        </div>
+        <div class="page-actions">
+          <button class="btn btn-ghost" type="button" id="refreshBtn"><i class="bi bi-arrow-clockwise me-1" aria-hidden="true"></i> Refresh</button>
+          <a class="btn btn-primary" href="upload.html"><i class="bi bi-cloud-arrow-up me-1" aria-hidden="true"></i> Submit invoices</a>
+        </div>
+      </div>
+
+      <section class="stats" aria-label="Invoice statistics">
+        <div class="stat total">
+          <div class="top"><span class="label">Total documents</span><span class="ico"><i class="bi bi-files" aria-hidden="true"></i></span></div>
+          <div class="value" id="stat-total">0</div>
+          <div class="foot">All invoices, credit and debit notes</div><span class="bar"></span>
+        </div>
+        <div class="stat pending">
+          <div class="top"><span class="label">Pending</span><span class="ico"><i class="bi bi-hourglass-split" aria-hidden="true"></i></span></div>
+          <div class="value" id="stat-pending">0</div>
+          <div class="foot">Awaiting NRS response</div><span class="bar"></span>
+        </div>
+        <div class="stat done">
+          <div class="top"><span class="label">Stamped</span><span class="ico"><i class="bi bi-patch-check" aria-hidden="true"></i></span></div>
+          <div class="value" id="stat-completed">0</div>
+          <div class="foot" id="stat-rate">IRN &amp; QR issued</div><span class="bar"></span>
+        </div>
+        <div class="stat rejected">
+          <div class="top"><span class="label">Rejected</span><span class="ico"><i class="bi bi-x-octagon" aria-hidden="true"></i></span></div>
+          <div class="value" id="stat-rejected">0</div>
+          <div class="foot">Needs correction &amp; resubmission</div><span class="bar"></span>
+        </div>
+      </section>
+
+      <div class="grid-2">
+        <section class="card" aria-labelledby="recentTitle">
+          <div class="card-header">
+            <div>
+              <h2 id="recentTitle">Recent invoices</h2>
+              <p class="card-sub">Latest 8 submissions</p>
+            </div>
+            <a class="btn btn-sm btn-outline-primary" href="invoices.html">View all</a>
+          </div>
+          <div class="table-wrap">
+            <table class="table-x">
+              <thead>
+                <tr><th scope="col">Invoice #</th><th scope="col">Supplier Tax ID</th><th scope="col" class="num">Amount</th><th scope="col">Status</th><th scope="col">NRS reference</th></tr>
+              </thead>
+              <tbody id="invoiceTable">
+                <tr><td colspan="5"><span class="skeleton"></span></td></tr>
+                <tr><td colspan="5"><span class="skeleton" style="width:80%"></span></td></tr>
+                <tr><td colspan="5"><span class="skeleton" style="width:60%"></span></td></tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+        <aside class="d-grid gap-3 align-content-start">
+          <section class="card">
+            <div class="card-header"><h2>Fiscalisation flow</h2><span class="pill pill-ok pill-live">Live</span></div>
+            <div class="card-body flow">
+              <div class="flow-step"><span class="n">1</span><div><b>Receive from ERP</b><span>JSON, CSV or UBL XML via API or upload</span></div></div>
+              <div class="flow-step"><span class="n">2</span><div><b>Validate &amp; map</b><span>Schema, Tax ID, VAT and totals checks</span></div></div>
+              <div class="flow-step"><span class="n">3</span><div><b>Submit to NRS MBS</b><span>Signed, time-stamped transmission</span></div></div>
+              <div class="flow-step"><span class="n">4</span><div><b>Return stamp</b><span>IRN, CSID &amp; QR written back to ERP</span></div></div>
+            </div>
+          </section>
+          <section class="card">
+            <div class="card-header"><h2>NRS updates</h2><a class="small" href="https://einvoice.nrs.gov.ng/changelog" target="_blank" rel="noopener">Changelog <i class="bi bi-box-arrow-up-right" aria-hidden="true"></i></a></div>
+            <div class="card-body d-grid gap-3" style="font-size:.86rem">
+              <div><span class="pill pill-info mb-1">Jul 2026</span><div class="fw-semibold">Tax ID replaces TIN</div><div class="text-muted-2">Tax ID is now the legal identifier on e-invoices. Retrieve it at taxid.nrs.gov.ng.</div></div>
+              <div><span class="pill pill-muted mb-1">Apr 2026</span><div class="fw-semibold">Partial payment status</div><div class="text-muted-2">Invoices can record instalment or split payments.</div></div>
+            </div>
+          </section>
+        </aside>
+      </div>
+    </main>
+
+    <footer class="app-footer">
+      <span>© <span data-year>2026</span> Microware Solutions Limited · NRS e-Invoicing Middleware</span>
+      <span><a href="https://einvoice.nrs.gov.ng/" target="_blank" rel="noopener">NRS MBS portal</a> · <a href="mailto:contact@microwaresolutions.com">Support</a></span>
+    </footer>
+  </div>
+
+  <script src="assets/js/auth.js"></script>
+  <script src="assets/js/dashboard.js"></script>
+</body>
+</html>

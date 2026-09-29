@@ -1,82 +1,418 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en-NG">
 <head>
-    <meta charset="UTF-8">
-    <title>NRS E-Invoicing | Dashboard</title>
-    <link rel="icon" type="image/png" href="assets/img/favicon.png">
-    <meta property="og:type" content="website">
-    <meta property="og:url" content="https://nrs-msl.render.com/"> <meta property="og:title" content="MSL E-Invoicing Portal | Microware Solutions Ltd">
-<meta property="og:description" content="Secure e-Invoicing middleware integration for the Nigerian market.">
-<meta property="og:image" content="https://nrs-msl.render.com/assets/img/og-thumbnail.png">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>NRS e-Invoicing Middleware for SAP &amp; ERP | Microware Solutions (MSL)</title>
+  <meta name="description" content="Connect SAP and other ERPs to the Nigeria Revenue Service (NRS) e-Invoicing platform. MSL middleware validates, submits and stamps invoices with IRN, CSID and QR. Book a demo.">
+  <meta name="keywords" content="NRS e-invoicing, Nigeria e-invoicing, MBS e-invoice integration, SAP e-invoicing Nigeria, FIRS e-invoicing, IRN QR code invoice Nigeria, e-invoicing middleware, fiscalisation Nigeria">
+  <meta name="robots" content="index, follow, max-image-preview:large">
+  <meta name="author" content="Microware Solutions Limited">
+  <meta name="theme-color" content="#050c22">
+  <link rel="canonical" href="https://nrs-middleware.onrender.com/">
+  <link rel="alternate" hreflang="en-ng" href="https://nrs-middleware.onrender.com/">
+  <link rel="icon" type="image/png" href="assets/img/favicon.png">
+  <link rel="manifest" href="site.webmanifest">
 
-<meta property="twitter:card" content="summary_large_image">
-<meta property="twitter:title" content="MSL E-Invoicing Portal | Microware Solutions Ltd">
-<meta property="twitter:description" content="Secure e-Invoicing middleware integration for the Nigerian market.">
-<meta property="twitter:image" content="https://nrs-msl.render.com/assets/img/og-thumbnail.png">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="assets/css/style.css">
+  <!-- Open Graph / social -->
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Microware Solutions Limited">
+  <meta property="og:locale" content="en_NG">
+  <meta property="og:url" content="https://nrs-middleware.onrender.com/">
+  <meta property="og:title" content="NRS e-Invoicing Middleware for SAP &amp; ERP | Microware Solutions">
+  <meta property="og:description" content="Validate, submit and stamp every invoice on the NRS e-Invoicing platform directly from your ERP.">
+  <meta property="og:image" content="https://nrs-middleware.onrender.com/assets/img/og-cover.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="MSL NRS e-Invoicing Middleware: ERP to NRS in real time">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="NRS e-Invoicing Middleware for SAP &amp; ERP | Microware Solutions">
+  <meta name="twitter:description" content="Validate, submit and stamp every invoice on the NRS e-Invoicing platform directly from your ERP.">
+  <meta name="twitter:image" content="https://nrs-middleware.onrender.com/assets/img/og-cover.png">
+
+  <link rel="preconnect" href="https://images.unsplash.com">
+  <link rel="preload" href="assets/vendor/fonts/poppins-latin-800-normal.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="assets/vendor/bootstrap/bootstrap.min.css">
+  <link rel="stylesheet" href="assets/vendor/icons/bootstrap-icons.min.css">
+  <link rel="stylesheet" href="assets/css/style.css">
+
+  <!-- Structured data -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "Organization",
+        "@id": "https://www.microwaresolutions.com/#org",
+        "name": "Microware Solutions Limited",
+        "alternateName": "MSL",
+        "url": "https://www.microwaresolutions.com",
+        "logo": "https://nrs-middleware.onrender.com/assets/img/og-thumbnail.png",
+        "sameAs": ["https://www.linkedin.com/company/microware-solutions-limited/"],
+        "address": [
+          { "@type": "PostalAddress", "streetAddress": "Plot 13 Otunba Toyin Abass Avenue, GRA Phase 2, Ogudu", "addressLocality": "Lagos", "addressCountry": "NG" },
+          { "@type": "PostalAddress", "streetAddress": "Cove Court, Watermark Business Park, Karen", "addressLocality": "Nairobi", "addressCountry": "KE" }
+        ]
+      },
+      {
+        "@type": "SoftwareApplication",
+        "name": "MSL NRS e-Invoicing Middleware",
+        "applicationCategory": "BusinessApplication",
+        "operatingSystem": "Web",
+        "url": "https://nrs-middleware.onrender.com/",
+        "description": "Middleware that connects SAP and other ERPs to the Nigeria Revenue Service e-Invoicing (MBS) platform, returning IRN, cryptographic stamp and QR code for each invoice.",
+        "publisher": { "@id": "https://www.microwaresolutions.com/#org" },
+        "areaServed": "NG"
+      },
+      {
+        "@type": "FAQPage",
+        "mainEntity": [
+          { "@type": "Question", "name": "What does the MSL NRS e-Invoicing Middleware do?", "acceptedAnswer": { "@type": "Answer", "text": "It sits between your ERP and the NRS e-Invoicing (MBS) platform. It receives invoices from your ERP, validates and maps them to the required structure, submits them to NRS, and writes the Invoice Reference Number (IRN), Cryptographic Stamp Identifier (CSID) and QR code back to your system." } },
+          { "@type": "Question", "name": "Does a scanned PDF invoice count as an e-invoice?", "acceptedAnswer": { "@type": "Answer", "text": "No. NRS states that a paper invoice converted to electronic format by copying or scanning does not qualify as an electronic invoice. Invoices must be generated as structured data." } },
+          { "@type": "Question", "name": "Can we keep using SAP?", "acceptedAnswer": { "@type": "Answer", "text": "Yes. MSL is an SAP Gold Partner and integrates SAP S/4HANA, SAP Business One and SAP Business ByDesign with the middleware, so invoices are fiscalised without changing how your finance team works." } },
+          { "@type": "Question", "name": "Which file formats are supported?", "acceptedAnswer": { "@type": "Answer", "text": "The middleware accepts JSON, CSV and UBL XML through its API or the manual upload screen." } },
+          { "@type": "Question", "name": "What is the Tax ID and does it replace the TIN?", "acceptedAnswer": { "@type": "Answer", "text": "Yes. NRS announced in July 2026 that the Tax ID replaces the TIN as the legal identifier for e-invoicing. Businesses can retrieve their Tax ID at taxid.nrs.gov.ng." } }
+        ]
+      }
+    ]
+  }
+  </script>
 </head>
-<body>
+<body class="site">
+  <a class="skip-link" href="#main">Skip to content</a>
 
-    <div id="sidebar-container"></div>
-
-    <div id="main-content">
-        <header class="d-flex justify-content-between align-items-center mb-4">
-            <h3>Welcome back, Kingsley</h3>
-            <span class="badge bg-primary">Connected to NRS API</span>
-        </header>
-
-        <div class="row mb-4">
-            <div class="col-md-3">
-                <div class="card p-3 shadow-sm border-0">
-                    <small class="text-muted">Total Documents</small>
-                    <h2 id="stat-total">0</h2>
-                </div>
-            </div>
-            <div class="col-md-3">
-                <div class="card p-3 shadow-sm border-0 border-start border-warning border-4">
-                    <small class="text-muted">Pending</small>
-                    <h2 id="stat-pending" class="text-warning">0</h2>
-                </div>
-            </div>
-            <div class="col-md-3">
-                <div class="card p-3 shadow-sm border-0 border-start border-success border-4">
-                    <small class="text-muted">Completed</small>
-                    <h2 id="stat-completed" class="text-success">0</h2>
-                </div>
-            </div>
-            <div class="col-md-3">
-                <div class="card p-3 shadow-sm border-0 border-start border-danger border-4">
-                    <small class="text-muted">Rejected</small>
-                    <h2 id="stat-rejected" class="text-danger">0</h2>
-                </div>
-            </div>
-        </div>
-
-        <div class="card shadow-sm border-0">
-            <div class="card-body">
-                <h5>Recent Invoices</h5>
-                <table class="table table-hover mt-3">
-                    <thead class="table-light">
-                        <tr>
-                            <th>Inv #</th>
-                            <th>Customer</th>
-                            <th>Amount</th>
-                            <th>Status</th>
-                            <th>NRS Stamp</th>
-                        </tr>
-                    </thead>
-                    <tbody id="invoiceTable">
-                        </tbody>
-                </table>
-            </div>
-        </div>
-
-        <footer>
-            &copy; 2026 NRS E-Invoicing Portal | Microware Solutions Ltd
-        </footer>
+  <!-- ============ NAV ============ -->
+  <header class="site-nav" id="siteNav">
+    <div class="inner">
+      <a class="logo" href="#top" aria-label="Microware Solutions home">
+        <img class="on-dark" src="assets/img/msl-logo-on-dark.png" alt="Microware Solutions Limited" width="160" height="35">
+        <img class="on-light" src="assets/img/og-thumbnail.png" alt="" width="160" height="35">
+      </a>
+      <nav aria-label="Main">
+        <ul class="links" id="navLinks">
+          <li><a href="#mandate">The mandate</a></li>
+          <li><a href="#features">Platform</a></li>
+          <li><a href="#how">How it works</a></li>
+          <li><a href="#erp">SAP &amp; ERP</a></li>
+          <li><a href="#resources">NRS resources</a></li>
+          <li><a href="#faq">FAQ</a></li>
+        </ul>
+      </nav>
+      <div class="cta">
+        <a class="signin" href="login.html">Sign in</a>
+        <a class="btn btn-accent" href="#contact">Book a demo</a>
+      </div>
+      <button class="btn btn-icon burger" type="button" aria-label="Open menu" aria-expanded="false" aria-controls="navLinks" id="burger"><i class="bi bi-list" aria-hidden="true"></i></button>
     </div>
+  </header>
 
-    <script src="assets/js/auth.js"></script> <script src="assets/js/dashboard.js"></script>
+  <main id="main">
+    <!-- ============ HERO ============ -->
+    <section class="hero" id="top">
+      <div class="bg" style="background-image:url('https://images.unsplash.com/photo-1639322537228-f710d846310a?auto=format&fit=crop&w=1800&q=60')" aria-hidden="true"></div>
+      <div class="container-x">
+        <div class="hero-grid">
+          <div>
+            <a class="announce" href="https://einvoice.nrs.gov.ng/changelog#july-2026" target="_blank" rel="noopener"><b>NRS update</b> Tax ID now replaces TIN on e-invoices <i class="bi bi-arrow-right" aria-hidden="true"></i></a>
+            <h1>NRS e-Invoicing compliance, <span class="grad">wired into your ERP.</span></h1>
+            <p class="sub">MSL's middleware validates, submits and stamps every invoice on the Nigeria Revenue Service MBS platform, then writes the IRN, cryptographic stamp and QR code straight back into SAP or whichever ERP you run.</p>
+            <div class="ctas">
+              <a class="btn btn-accent btn-lg" href="#contact">Book a compliance demo <i class="bi bi-arrow-right ms-1" aria-hidden="true"></i></a>
+              <a class="btn btn-ghost-light btn-lg" href="#how">See how it works</a>
+            </div>
+            <div class="hero-meta">
+              <span><i class="bi bi-check-circle-fill" aria-hidden="true"></i> Built by an SAP Gold Partner</span>
+              <span><i class="bi bi-check-circle-fill" aria-hidden="true"></i> UBL · JSON · CSV</span>
+              <span><i class="bi bi-check-circle-fill" aria-hidden="true"></i> Sandbox before go-live</span>
+            </div>
+          </div>
+
+          <!-- Live pipeline illustration -->
+          <div class="pipeline" aria-label="Illustration: invoice flowing from ERP through MSL middleware to NRS">
+            <div class="float-badge"><i class="bi bi-patch-check-fill" aria-hidden="true"></i> Invoice stamped</div>
+            <div class="ph"><span class="dots" aria-hidden="true"><i></i><i></i><i></i></span><span class="mono">fiscalisation.pipeline</span></div>
+            <div class="node erp">
+              <span class="ni"><i class="bi bi-hdd-stack" aria-hidden="true"></i></span>
+              <div><b>Your ERP</b><small>SAP S/4HANA · Business One · ByDesign · other</small></div>
+              <span class="tag">INV-2026-0418</span>
+            </div>
+            <div class="wire" aria-hidden="true"></div>
+            <div class="node msl">
+              <span class="ni"><i class="bi bi-cpu" aria-hidden="true"></i></span>
+              <div><b>MSL Middleware</b><small>Validate · map · sign · retry</small>
+                <div class="chips"><span>UBL</span><span>Tax ID ✓</span><span>VAT ✓</span><span>UoM ✓</span></div>
+              </div>
+            </div>
+            <div class="wire d2" aria-hidden="true"></div>
+            <div class="node nrs">
+              <span class="ni"><i class="bi bi-bank" aria-hidden="true"></i></span>
+              <div><b>NRS MBS platform</b><small>e-Invoicing &amp; fiscalisation</small></div>
+              <span class="tag">200 OK</span>
+            </div>
+            <div class="receipt">
+              <dl>
+                <dt>IRN</dt><dd>INV2026-0418-94F1C2</dd>
+                <dt>CSID</dt><dd>c7e1…9ab4 ✓</dd>
+                <dt>Status</dt><dd style="color:var(--ok)">Stamped</dd>
+              </dl>
+              <svg class="qr-mini" viewBox="0 0 21 21" aria-hidden="true" shape-rendering="crispEdges">
+                <rect width="21" height="21" fill="#fff"/>
+                <path fill="#0f1a33" d="M0 0h7v7H0zM1 1v5h5V1zM2 2h3v3H2zM14 0h7v7h-7zM15 1v5h5V1zM16 2h3v3h-3zM0 14h7v7H0zM1 15v5h5v-5zM2 16h3v3H2zM8 0h1v1H8zM10 0h2v1h-2zM9 2h1v2H9zM11 3h2v1h-2zM8 5h2v1H8zM12 5h1v2h-1zM8 8h2v1H8zM11 8h3v1h-3zM15 8h1v2h-1zM17 8h3v1h-3zM0 8h2v1H0zM3 9h3v1H3zM1 11h2v1H1zM4 11h1v2H4zM9 10h1v3H9zM11 10h2v1h-2zM14 11h2v1h-2zM17 10h1v2h-1zM19 11h2v1h-2zM8 14h2v1H8zM11 13h1v2h-1zM13 14h3v1h-3zM17 13h1v1h-1zM19 14h1v3h-1zM9 16h1v2H9zM11 17h3v1h-3zM15 16h2v1h-2zM8 19h2v2H8zM12 19h1v2h-1zM14 19h3v1h-3zM18 18h3v1h-3zM6 9h1v3H6z"/>
+              </svg>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ TRUST ============ -->
+    <section class="trust" aria-label="Standards and credentials">
+      <div class="container-x">
+        <div class="by"><img src="assets/img/og-thumbnail.png" alt="Microware Solutions Limited" width="140" height="31"><span>SAP Gold Partner · Lagos &amp; Nairobi</span></div>
+        <div class="std">
+          <span><i class="bi bi-filetype-xml" aria-hidden="true"></i> UBL</span>
+          <span><i class="bi bi-arrow-left-right" aria-hidden="true"></i> ISO 20022</span>
+          <span><i class="bi bi-key" aria-hidden="true"></i> PKI</span>
+          <span><i class="bi bi-clock-history" aria-hidden="true"></i> NTP time-stamping</span>
+          <span><i class="bi bi-shield-check" aria-hidden="true"></i> NDPA-aware</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ MANDATE ============ -->
+    <section class="section mandate" id="mandate">
+      <div class="container-x">
+        <div class="mandate-grid">
+          <div class="reveal">
+            <div class="section-head" style="margin-bottom:2rem">
+              <span class="eyebrow">The mandate</span>
+              <h2>Nigeria's invoices are going real-time. Is your ERP ready?</h2>
+              <p>The Nigeria Revenue Service is rolling out e-invoicing in stages across taxpayer segments. Every compliant invoice now has to be structured, identified and cryptographically stamped, and that's hard to retrofit by hand.</p>
+            </div>
+            <div class="fact-list">
+              <div class="fact"><span class="fi"><i class="bi bi-calendar2-check" aria-hidden="true"></i></span><div><span class="date">Phased rollout</span><h3>Large taxpayers first, other segments to follow</h3><p>NRS has published a phased timeline with compliance dates for each taxpayer category. <a href="https://nrs.gov.ng/news/news/119" target="_blank" rel="noopener">View the official timeline</a>.</p></div></div>
+              <div class="fact"><span class="fi"><i class="bi bi-person-vcard" aria-hidden="true"></i></span><div><span class="date">July 2026</span><h3>Tax ID replaces TIN</h3><p>The Tax ID is now the legal identifier on e-invoices, so master data has to be updated in your ERP.</p></div></div>
+              <div class="fact"><span class="fi"><i class="bi bi-file-earmark-x" aria-hidden="true"></i></span><div><span class="date">Rule</span><h3>Scanned invoices don't qualify</h3><p>Invoices must be generated as structured data with an IRN, CSID and QR code.</p></div></div>
+            </div>
+          </div>
+          <div class="photo-frame reveal" style="background-image:url('https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&w=1200&q=70')" role="img" aria-label="Finance analytics on a laptop">
+            <div class="cap"><b>From invoice to IRN in seconds</b>No re-keying, no portal uploads at month-end, and a complete audit trail for every document.</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ FEATURES ============ -->
+    <section class="section" id="features">
+      <div class="container-x">
+        <div class="section-head center reveal">
+          <span class="eyebrow">The platform</span>
+          <h2>Everything between your ERP and NRS, handled.</h2>
+          <p>A purpose-built integration layer, so your finance team keeps working in the system they know.</p>
+        </div>
+        <div class="features">
+          <article class="feature reveal"><span class="fi"><i class="bi bi-plug" aria-hidden="true"></i></span><h3>ERP-native connectors</h3><p>Post invoices from SAP or any ERP over REST, or drop JSON, CSV and UBL XML exports into the portal.</p></article>
+          <article class="feature reveal"><span class="fi"><i class="bi bi-ui-checks-grid" aria-hidden="true"></i></span><h3>Pre-submission validation</h3><p>Catch missing Tax IDs, VAT errors, unit-of-measure codes and total mismatches before NRS rejects them.</p></article>
+          <article class="feature reveal"><span class="fi"><i class="bi bi-qr-code-scan" aria-hidden="true"></i></span><h3>IRN, CSID &amp; QR returned</h3><p>Every accepted invoice comes back with its Invoice Reference Number, cryptographic stamp and QR code, ready to print.</p></article>
+          <article class="feature reveal"><span class="fi"><i class="bi bi-speedometer2" aria-hidden="true"></i></span><h3>Compliance dashboard</h3><p>See pending, stamped and rejected documents at a glance, and drill into each UBL payload.</p></article>
+          <article class="feature reveal"><span class="fi"><i class="bi bi-cone-striped" aria-hidden="true"></i></span><h3>Sandbox mode</h3><p>Test end-to-end against a mock NRS endpoint before you switch to live submissions.</p></article>
+          <article class="feature reveal"><span class="fi"><i class="bi bi-shield-lock" aria-hidden="true"></i></span><h3>Secure by design</h3><p>Server-side credentials, encrypted transport and data handling aligned with NDPA and the standards NRS adopts.</p></article>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ HOW ============ -->
+    <section class="section how" id="how">
+      <div class="container-x">
+        <div class="section-head reveal">
+          <span class="eyebrow">How it works</span>
+          <h2>Four steps from ERP to stamped invoice.</h2>
+          <p>MSL handles onboarding, mapping and go-live. You approve each stage.</p>
+        </div>
+        <div class="steps">
+          <div class="step reveal"><h3>Get enabled</h3><p>Register your business on the NRS e-Invoicing platform and retrieve your integration credentials. We guide you through it.</p></div>
+          <div class="step reveal"><h3>Map your ERP</h3><p>We map your invoice, credit-note and debit-note fields to the NRS structure and your <span class="mono">Tax ID</span> master data.</p></div>
+          <div class="step reveal"><h3>Test in sandbox</h3><p>Run real scenarios (B2B, B2G, B2C, partial payments) against the mock endpoint until every case passes.</p></div>
+          <div class="step reveal"><h3>Go live &amp; monitor</h3><p>Switch to production. Invoices are stamped in real time, and exceptions surface on your dashboard.</p></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ ERP ============ -->
+    <section class="section" id="erp">
+      <div class="container-x">
+        <div class="erp-grid">
+          <div class="reveal">
+            <div class="section-head" style="margin-bottom:1rem">
+              <span class="eyebrow">SAP &amp; ERP</span>
+              <h2>SAP expertise behind every integration.</h2>
+              <p>Microware Solutions Limited is an SAP Gold Partner serving oil and gas, utilities, financial services, manufacturing and the public sector across West and East Africa.</p>
+            </div>
+            <ul class="check-list">
+              <li><i class="bi bi-check-circle-fill" aria-hidden="true"></i><span>Integration through SAP BTP / Integration Suite where it fits your landscape</span></li>
+              <li><i class="bi bi-check-circle-fill" aria-hidden="true"></i><span>No change to how users raise invoices in SAP</span></li>
+              <li><i class="bi bi-check-circle-fill" aria-hidden="true"></i><span>Stamps and QR codes written back to the source document</span></li>
+              <li><i class="bi bi-check-circle-fill" aria-hidden="true"></i><span>Local implementation and support teams in Lagos</span></li>
+            </ul>
+          </div>
+          <div class="erp-tiles reveal">
+            <div class="erp-tile hl"><b>SAP S/4HANA</b><span>RISE &amp; GROW, cloud or on-premise</span></div>
+            <div class="erp-tile"><b>SAP Business One</b><span>Mid-market finance &amp; distribution</span></div>
+            <div class="erp-tile"><b>SAP Business ByDesign</b><span>Cloud ERP for growing subsidiaries</span></div>
+            <div class="erp-tile"><b>Any ERP or billing system</b><span>REST API, JSON, CSV or UBL XML</span></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ SECTORS ============ -->
+    <section class="section pt-0" aria-labelledby="sectorsTitle">
+      <div class="container-x">
+        <div class="section-head center reveal">
+          <span class="eyebrow">Industries</span>
+          <h2 id="sectorsTitle">Proven in high-volume invoicing sectors.</h2>
+        </div>
+        <div class="sectors">
+          <div class="sector reveal" style="background-image:linear-gradient(135deg,#0b2a55,#0a1633)"><div><i class="bi bi-fuel-pump" aria-hidden="true"></i><b>Oil &amp; gas</b></div></div>
+          <div class="sector reveal" style="background-image:url('https://images.unsplash.com/photo-1558494949-ef010cbdcc31?auto=format&fit=crop&w=600&q=60')"><div><i class="bi bi-lightning-charge" aria-hidden="true"></i><b>Utilities</b></div></div>
+          <div class="sector reveal" style="background-image:url('https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&w=600&q=60')"><div><i class="bi bi-bank2" aria-hidden="true"></i><b>Financial services</b></div></div>
+          <div class="sector reveal" style="background-image:linear-gradient(135deg,#123a70,#0a1633)"><div><i class="bi bi-gear-wide-connected" aria-hidden="true"></i><b>Manufacturing</b></div></div>
+          <div class="sector reveal" style="background-image:url('https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=600&q=60')"><div><i class="bi bi-building-check" aria-hidden="true"></i><b>Public sector</b></div></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ NRS RESOURCES ============ -->
+    <section class="section pt-0" id="resources">
+      <div class="container-x">
+        <div class="nrs-panel reveal">
+          <div>
+            <span class="eyebrow">Official NRS resources</span>
+            <h2 class="mt-3" style="font-size:clamp(1.6rem,2.6vw,2.1rem)">Go straight to the source.</h2>
+            <p class="text-muted-2">The Nigeria Revenue Service is the central authority that assesses, collects and enforces federally collectible taxes, and it operates the e-Invoicing (MBS) platform. These are the official links our team works from.</p>
+            <div class="social mt-3" aria-label="NRS official social channels">
+              <a href="https://x.com/NigeriaRevenue" target="_blank" rel="noopener" aria-label="NRS on X" style="background:#0f1a33"><i class="bi bi-twitter-x" aria-hidden="true"></i></a>
+              <a href="https://ng.linkedin.com/company/nrsnigeria" target="_blank" rel="noopener" aria-label="NRS on LinkedIn" style="background:#0f1a33"><i class="bi bi-linkedin" aria-hidden="true"></i></a>
+              <a href="https://www.facebook.com/OfficialNRSNigeria/" target="_blank" rel="noopener" aria-label="NRS on Facebook" style="background:#0f1a33"><i class="bi bi-facebook" aria-hidden="true"></i></a>
+              <a href="https://www.instagram.com/nigeriarevenue/" target="_blank" rel="noopener" aria-label="NRS on Instagram" style="background:#0f1a33"><i class="bi bi-instagram" aria-hidden="true"></i></a>
+            </div>
+            <p class="disclaimer"><i class="bi bi-info-circle" aria-hidden="true"></i><span>Microware Solutions Limited is an independent technology provider and is not part of the Nigeria Revenue Service. Always confirm deadlines and requirements on official .gov.ng websites.</span></p>
+          </div>
+          <div class="res-list">
+            <a class="res" href="https://www.nrs.gov.ng/" target="_blank" rel="noopener"><i class="bi bi-bank" aria-hidden="true"></i><div><b>Nigeria Revenue Service</b><small>nrs.gov.ng</small></div></a>
+            <a class="res" href="https://einvoice.nrs.gov.ng/" target="_blank" rel="noopener"><i class="bi bi-receipt-cutoff" aria-hidden="true"></i><div><b>e-Invoicing (MBS) portal</b><small>einvoice.nrs.gov.ng</small></div></a>
+            <a class="res" href="https://einvoice.nrs.gov.ng/enablement" target="_blank" rel="noopener"><i class="bi bi-toggle-on" aria-hidden="true"></i><div><b>Get enabled for e-invoicing</b><small>Register your business</small></div></a>
+            <a class="res" href="https://taxid.nrs.gov.ng/" target="_blank" rel="noopener"><i class="bi bi-person-vcard" aria-hidden="true"></i><div><b>Retrieve your Tax ID</b><small>taxid.nrs.gov.ng</small></div></a>
+            <a class="res" href="https://nrs.gov.ng/news/news/119" target="_blank" rel="noopener"><i class="bi bi-calendar-week" aria-hidden="true"></i><div><b>Rollout timeline</b><small>Phased compliance dates</small></div></a>
+            <a class="res" href="https://einvoice.nrs.gov.ng/rules-and-instructions" target="_blank" rel="noopener"><i class="bi bi-journal-check" aria-hidden="true"></i><div><b>Standards adopted</b><small>UBL, ISO 20022, PKI, NTP…</small></div></a>
+            <a class="res" href="https://mbs.gov.ng/service-providers-directory" target="_blank" rel="noopener"><i class="bi bi-list-check" aria-hidden="true"></i><div><b>Approved service providers</b><small>Official directory</small></div></a>
+            <a class="res" href="https://nitda.gov.ng/wp-content/uploads/2025/08/NATIONAL-REGULATORY-GUIDELINE-FOR-ELECTRONIC-INVOICING-IN-NIGERIA-2025.pdf" target="_blank" rel="noopener"><i class="bi bi-file-earmark-pdf" aria-hidden="true"></i><div><b>NITDA e-Invoicing guideline</b><small>National regulatory guideline (PDF)</small></div></a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ ABOUT ============ -->
+    <section class="section pt-0" id="about">
+      <div class="container-x">
+        <div class="about-grid">
+          <div class="about-photo reveal" style="background-image:url('https://microwaresolutions.com/assets/img/slider/microware-solution-staffs.jpg')" role="img" aria-label="The Microware Solutions team">
+            <div class="badge-gold"><i class="bi bi-award-fill" aria-hidden="true"></i><div><b>SAP Gold Partner</b><span class="text-muted-2">Lagos · Nairobi</span></div></div>
+          </div>
+          <div class="reveal">
+            <div class="section-head" style="margin-bottom:0">
+              <span class="eyebrow">About MSL</span>
+              <h2>A delivery partner, not just a connector.</h2>
+              <p>Microware Solutions Limited (MSL) implements enterprise platforms across SAP, OpenText, Huawei and BMC. The NRS e-Invoicing Middleware brings that integration experience to tax compliance, delivered by consultants who understand both your ERP and your finance process.</p>
+            </div>
+            <div class="offices">
+              <div class="office"><b><i class="bi bi-geo-alt-fill" aria-hidden="true"></i> Lagos (HQ)</b><span>Plot 13 Otunba Toyin Abass Avenue, GRA Phase 2, Ogudu, Lagos, Nigeria</span></div>
+              <div class="office"><b><i class="bi bi-geo-alt-fill" aria-hidden="true"></i> Nairobi</b><span>Cove Court, Watermark Business Park, Karen, Nairobi, Kenya</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ FAQ ============ -->
+    <section class="section pt-0" id="faq">
+      <div class="container-x">
+        <div class="section-head center reveal">
+          <span class="eyebrow">FAQ</span>
+          <h2>Questions finance and IT leaders ask us.</h2>
+        </div>
+        <div class="faq">
+          <details class="reveal" open><summary>What does the middleware actually do?</summary><div class="ans"><p>It sits between your ERP and the NRS e-Invoicing (MBS) platform. It receives invoices from your ERP, validates and maps them to the required structure, submits them to NRS, and writes the Invoice Reference Number (IRN), Cryptographic Stamp Identifier (CSID) and QR code back to your system.</p></div></details>
+          <details class="reveal"><summary>Does a scanned PDF invoice count as an e-invoice?</summary><div class="ans"><p>No. NRS states that a paper invoice converted to electronic format by copying or scanning does not qualify. Invoices must be generated as structured data.</p></div></details>
+          <details class="reveal"><summary>Can we keep using SAP?</summary><div class="ans"><p>Yes. MSL is an SAP Gold Partner and integrates SAP S/4HANA, SAP Business One and SAP Business ByDesign with the middleware, so invoices are fiscalised without changing how your team works.</p></div></details>
+          <details class="reveal"><summary>Which formats are supported?</summary><div class="ans"><p>JSON, CSV and UBL XML, through the REST API or the manual upload screen.</p></div></details>
+          <details class="reveal"><summary>What changed with the Tax ID?</summary><div class="ans"><p>NRS announced in July 2026 that the Tax ID replaces the TIN as the legal identifier for e-invoicing. You can retrieve yours at <a href="https://taxid.nrs.gov.ng/" target="_blank" rel="noopener">taxid.nrs.gov.ng</a>. We update your customer and supplier master data as part of onboarding.</p></div></details>
+          <details class="reveal"><summary>How long does onboarding take?</summary><div class="ans"><p>It depends on your ERP, invoice volumes and document types. We scope it in a short discovery session and give you a fixed plan covering mapping, sandbox testing and go-live.</p></div></details>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ CTA ============ -->
+    <section class="container-x" id="contact">
+      <div class="cta-band reveal">
+        <div>
+          <h2>Get compliant before your deadline, not after.</h2>
+          <p>Book a 30-minute session. We'll review your ERP landscape, invoice types and NRS timeline, then map a path to go-live.</p>
+        </div>
+        <div class="ctas">
+          <a class="btn btn-accent btn-lg" href="mailto:contact@microwaresolutions.com?subject=NRS%20e-Invoicing%20Middleware%20demo%20request&amp;body=Company%3A%0AERP%3A%0AMonthly%20invoice%20volume%3A%0APreferred%20date%2Ftime%3A">Book a demo</a>
+          <a class="btn btn-ghost-light btn-lg" href="login.html">Client sign in</a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- ============ FOOTER ============ -->
+  <footer class="site-footer">
+    <div class="container-x">
+      <div class="foot-grid">
+        <div>
+          <img src="assets/img/msl-logo-on-dark.png" alt="Microware Solutions Limited" width="160" height="35" loading="lazy">
+          <p>NRS e-Invoicing Middleware by Microware Solutions Limited, an SAP Gold Partner delivering enterprise technology across West and East Africa.</p>
+          <div class="social">
+            <a href="https://www.linkedin.com/company/microware-solutions-limited/" target="_blank" rel="noopener" aria-label="MSL on LinkedIn"><i class="bi bi-linkedin" aria-hidden="true"></i></a>
+            <a href="https://www.microwaresolutions.com" target="_blank" rel="noopener" aria-label="MSL website"><i class="bi bi-globe2" aria-hidden="true"></i></a>
+          </div>
+        </div>
+        <div>
+          <h4>Product</h4>
+          <ul>
+            <li><a href="#features">Platform</a></li>
+            <li><a href="#how">How it works</a></li>
+            <li><a href="#erp">SAP &amp; ERP</a></li>
+            <li><a href="login.html">Client sign in</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4>NRS</h4>
+          <ul>
+            <li><a href="https://einvoice.nrs.gov.ng/" target="_blank" rel="noopener">e-Invoicing portal</a></li>
+            <li><a href="https://taxid.nrs.gov.ng/" target="_blank" rel="noopener">Tax ID lookup</a></li>
+            <li><a href="https://einvoice.nrs.gov.ng/changelog" target="_blank" rel="noopener">API changelog</a></li>
+            <li><a href="https://mbs.gov.ng/service-providers-directory" target="_blank" rel="noopener">Service providers</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4>Offices</h4>
+          <ul>
+            <li>Plot 13 Otunba Toyin Abass Avenue, GRA Phase 2, Ogudu, Lagos, Nigeria</li>
+            <li>Cove Court, Watermark Business Park, Karen, Nairobi, Kenya</li>
+            <li><a href="https://www.microwaresolutions.com" target="_blank" rel="noopener">www.microwaresolutions.com</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="bottom">
+        <span>© <span data-year>2026</span> Microware Solutions Limited. All rights reserved.</span>
+        <span>Independent solution. Not affiliated with or endorsed by the Nigeria Revenue Service.</span>
+      </div>
+    </div>
+  </footer>
+
+  <script src="assets/js/landing.js" defer></script>
 </body>
 </html>

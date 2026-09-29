@@ -1,77 +1,70 @@
-/**
- * Settings & Profile Management
- * Integrated with NRS API and Local Storage
- */
+/* Settings (requires auth.js) */
+(function () {
+  "use strict";
+  const { api, toast, setLoading } = window.MSL;
+  const $ = (id) => document.getElementById(id);
+  const PROFILE = ["profName", "profTax", "profEmail", "profAddr1", "profCity", "profState", "profPostal"];
 
-document.addEventListener("DOMContentLoaded", async () => {
-    // 1. Initial Data Load
-    await loadAllSettings();
-
-    // 2. API Credentials Handler
-    const settingsForm = document.getElementById('settingsForm');
-    if (settingsForm) {
-        settingsForm.addEventListener('submit', async (e) => {
-            e.preventDefault();
-            const settings = {
-                apiUrl: document.getElementById('apiUrl').value,
-                clientId: document.getElementById('clientId').value,
-                clientSecret: document.getElementById('clientSecret').value,
-                mockMode: document.getElementById('mockMode').checked
-            };
-
-            try {
-                const response = await fetch('/api/v1/settings', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify(settings)
-                });
-                if (response.ok) alert("API Credentials updated successfully!");
-            } catch (err) {
-                // Fallback to local storage for testing if API is unavailable
-                localStorage.setItem('nrs_config', JSON.stringify(settings));
-                alert("Saved to local storage (API connection unavailable).");
-            }
-        });
-    }
-
-    // 3. Profile Information Handler
-    const profileForm = document.getElementById('profileForm');
-    if (profileForm) {
-        profileForm.addEventListener('submit', async (e) => {
-            e.preventDefault();
-            alert("Profile updated successfully!");
-        });
-    }
-
-    // 4. Password Change Handler (Critical Security)
-    const passwordForm = document.getElementById('passwordForm');
-    if (passwordForm) {
-        passwordForm.addEventListener('submit', (e) => {
-            e.preventDefault();
-            const newPass = document.getElementById('newPass').value;
-            const confirmPass = document.getElementById('confirmPass').value;
-
-            if (newPass !== confirmPass) {
-                alert("Passwords do not match!");
-                return;
-            }
-            alert("Password updated successfully!");
-            passwordForm.reset();
-        });
-    }
-});
-
-async function loadAllSettings() {
+  async function load() {
     try {
-        const response = await fetch('/api/v1/settings');
-        if (response.ok) {
-            const settings = await response.json();
-            document.getElementById('apiUrl').value = settings.apiUrl || '';
-            document.getElementById('clientId').value = settings.clientId || '';
-            document.getElementById('mockMode').checked = settings.mockMode || false;
-        }
-    } catch (err) {
-        console.warn("Using local defaults - API fetch failed.");
-        // Optional: Load from localStorage here if needed
-    }
-}
+      const r = await api("/api/v1/settings");
+      if (!r.ok) return;
+      const s = await r.json();
+      $("apiUrl").value = s.apiUrl || "";
+      $("clientId").value = s.clientId || "";
+      $("mockMode").checked = !!s.mockMode;
+      if (s.apiUrl && s.clientId) { const p = $("connPill"); p.className = "pill pill-ok"; p.textContent = s.mockMode ? "Sandbox" : "Configured"; }
+      const prof = s.profile || {};
+      PROFILE.forEach((k) => { if (prof[k] != null) $(k).value = prof[k]; });
+      if (s.invoiceTerms) $("invoiceTerms").value = s.invoiceTerms;
+    } catch (e) { console.warn("Settings load failed", e); }
+  }
+
+  async function save(payload, btn, label) {
+    setLoading(btn, true, "Saving…");
+    try {
+      const r = await api("/api/v1/settings", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(payload) });
+      if (!r.ok) throw new Error("HTTP " + r.status);
+      toast("Settings saved.", "ok");
+      return true;
+    } catch (e) {
+      toast("Couldn't save settings. Please try again.", "err");
+      return false;
+    } finally { setLoading(btn, false, label); }
+  }
+
+  document.addEventListener("msl:ready", () => {
+    document.querySelectorAll("[data-year]").forEach((e) => (e.textContent = new Date().getFullYear()));
+    load();
+
+    $("settingsForm").addEventListener("submit", async (e) => {
+      e.preventDefault();
+      const payload = { apiUrl: $("apiUrl").value.trim(), clientId: $("clientId").value.trim(), mockMode: $("mockMode").checked };
+      if ($("clientSecret").value) payload.clientSecret = $("clientSecret").value; // only send when changed
+      if (await save(payload, e.submitter || e.target.querySelector("button"), "Save API settings")) $("clientSecret").value = "";
+    });
+
+    $("profileForm").addEventListener("submit", (e) => {
+      e.preventDefault();
+      const profile = {}; PROFILE.forEach((k) => (profile[k] = $(k).value.trim()));
+      save({ profile }, e.target.querySelector("button"), "Update profile");
+    });
+
+    $("saveTerms").addEventListener("click", (e) => save({ invoiceTerms: $("invoiceTerms").value }, e.currentTarget, "Save terms"));
+
+    $("passwordForm").addEventListener("submit", async (e) => {
+      e.preventDefault();
+      const btn = e.target.querySelector("button");
+      if ($("newPass").value !== $("confirmPass").value) return toast("New passwords don't match.", "err");
+      setLoading(btn, true, "Updating…");
+      try {
+        const r = await api("/api/v1/auth/change-password", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ currentPassword: $("curPass").value, newPassword: $("newPass").value }) });
+        const j = await r.json().catch(() => ({}));
+        if (!r.ok) throw new Error(j.error || "Password update failed.");
+        toast("Password updated.", "ok");
+        e.target.reset();
+      } catch (err) { toast(err.message, "err"); }
+      finally { setLoading(btn, false, "Update password"); }
+    });
+  });
+})();

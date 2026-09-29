@@ -1,0 +1,9 @@
+{
+  "name": "MSL NRS e-Invoicing Middleware",
+  "short_name": "MSL e-Invoice",
+  "start_url": "/dashboard.html",
+  "display": "standalone",
+  "background_color": "#050c22",
+  "theme_color": "#050c22",
+  "icons": [{ "src": "/assets/img/favicon.png", "sizes": "32x25", "type": "image/png" }]
+}
